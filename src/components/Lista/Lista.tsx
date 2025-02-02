@@ -3,8 +3,16 @@ import ItemDeLista from "./ItemDeLista/ItemDeLista";
 // As imagens devem ser salvas no BD, e pegas por uma API
 // https://stackoverflow.com/questions/40702842/how-to-import-all-modules-from-a-directory-in-typescript
 
+interface ILista {
+    produtos: {
+        nome:string,
+        preco:number,
+        img:string
+    }[]
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function Lista(_props: {produtos:{nome:string, preco:number, img:string}[]}) {
+function Lista(_props: ILista) {
     const lista = {
         produtos: [
             {
