@@ -29,8 +29,8 @@ function DetalhesProduto () {
                         R${state.produto.preco}
                     </span>
                     <Botao legenda="Adicionar ao carrinho"/>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                        {state.produto.descricao ? state.produto.descricao : "Essa é a descrição do produto. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
+                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-300">
+                        {state.produto.descricao ? state.produto.descricao : "Produto sem descrição."}
                     </p>
                 </div>
             </div>

@@ -7,12 +7,12 @@ function Sobre() {
         <div className="pagina">
             <NavBar />            
 
-            <div className="grid h-full">
-                <div className='justify-self-center'>
+            <div className="flex h-dvh justify-center items-center">
+                <div className=''>
                     <img src="logo.png"/>
                 </div>
-                <h1 className='justify-self-center text-avocado-400 text-x1'>Sobre nós</h1>
-                <div className="w-1/3 justify-self-center">
+                <div className="flex flex-col w-1/3">
+                    <h1 className='text-avocado-400 text-x1 justify-center'>Sobre nós</h1>
                     <p className='sm:text-justify'>
                         Nossa loja começou em 2020, criada pelo Fulano da Silva, com o sonho de melhorar a vida das pessoas.
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.

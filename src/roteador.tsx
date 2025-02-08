@@ -6,6 +6,7 @@ import Rodape from './components/Rodape/Rodape'
 import NotFound from './pages/NotFound'
 import DetalhesProduto from './pages/DetalhesProduto'
 
+// https://github.com/alura-cursos/aluroni-router/blob/main/src/routes.tsx
 function Roteador() {
     return (
         <BrowserRouter>

@@ -1,7 +1,7 @@
 export default interface IProduto {
+    id: number,
     nome: string,
     preco: number,
-    img:string,
     descricao:string,
-    id: number
+    img:string,
 }
