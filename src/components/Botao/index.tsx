@@ -1,7 +1,8 @@
-function Botao (props: {legenda: string, aoClicar?: () => void, tipo?:"submit" | "reset" | "button" | undefined}) {
+function Botao (props: {legenda?: string, aoClicar?: () => void, tipo?:"submit" | "reset" | "button" | undefined, id?: string}) {
     const tipo = props.tipo ? props.tipo : "button"
     return (
         <button 
+            id={props.id}
             type={tipo} 
             onClick={props.aoClicar} 
             className="inline-flex items-center px-3 py-2 text-sm font-medium text-center 
