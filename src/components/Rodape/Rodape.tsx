@@ -29,7 +29,7 @@ function Rodape () {
                 </ul>
             </section>
             <section>
-                <img width="50" height="50" src="logo.png" alt="logo"/>
+                <img width="50" height="50" src="/logo.png" alt="logo"/>
             </section>
             <section>
                 <p>Desenvolvido por JP</p>

@@ -108,7 +108,7 @@ function Sobre() {
                         </div> 
             }
             
-            {erro && <div className="flex justify-center items-center">Erro ao carregar os produtos...</div>}
+            {erro && <div className="flex justify-center items-center">Erro ao carregar os produtos.</div>}
             
             {/* organizar os cards em grid: https://mozilladevelopers.github.io/playground/css-grid/04-fr-unit/ */}
             <div className='grid grid-cols-4 gap-10 mx-10'>

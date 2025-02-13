@@ -42,9 +42,11 @@ function CardLogin(props: {setMostrar: React.Dispatch<React.SetStateAction<boole
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
+                //'Authorization': 'Bearer <TOKEN_JWT>'
             },
             body: JSON.stringify({email: email, senha: senha})
         }).then(response => {
+            // TODO: GUARDAR O TOKEN JWT RECEBIDO DA API
             console.log(response)
         }).catch((erro) => {
             console.error("Erro pegando dados dos produtos: ", erro)

@@ -1,3 +1,7 @@
+### Rodar o projeto localmente:
+
+`npm run dev` ou `npx vite`
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
