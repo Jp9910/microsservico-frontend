@@ -1,6 +1,22 @@
-### Rodar o projeto localmente:
+# Microsserviço - frontend
 
-`npm run dev` ou `npx vite`
+## Iniciar o serviço localmente:
+> npm install
+
+> npm run dev
+
+## Iniciar o serviço com Docker
+Iniciar o serviço em desenvolvimento em containers (inicia todos os serviços necessários, então requisições devem funcionar):
+1. Criar arquivos de ambiente 
+- `.senhapostgresauth.txt`;
+- `.senhapostgresloja.txt`;
+- `env.api-loja`;
+- `env.api-autenticacao`, que contêm configurações dos serviços de autenticação e loja e seus BDs.
+
+2. Executar `docker-compose up -d`
+
+## Executar build para deploy:
+TODO: como executar o deploy (compilar typescript, etc)
 
 # React + TypeScript + Vite
 

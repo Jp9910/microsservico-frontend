@@ -11,18 +11,19 @@ function Sobre() {
     const [produtos, setProdutos] = useState<IProduto[]>([]);
     const [loading, setLoading] = useState(true);
     const [erro, setErro] = useState(null);
-
     //https://www.freecodecamp.org/portuguese/news/como-fazer-o-fetch-dos-dados-em-react/
     //https://www.newline.co/@bespoyasov/how-to-use-fetch-with-typescript--a81ac257
     useEffect(() => {
-        const url = 'http://localhost:8080/api/produto?'
+        const protocolo = "http://";
+        const urlApiLoja = import.meta.env.VITE_URL_API_LOJA //localhost:8080
+        const URI = protocolo.concat(urlApiLoja).concat('/produto?')
         const params = new URLSearchParams("skip=0&take=30")
-        const urlFetch = url+params.toString()
-        console.log(urlFetch)
+        const URIFetch = URI+params.toString()
+        console.log(URIFetch)
         
         //No typescript, <TipoGenerico> (ou <QualquerCoisa>) significa que esse tipo deve ser especificado quando a função for chamada. 
         async function carregarProdutos<TipoGenerico>(): Promise<TipoGenerico> {
-            const res = await fetch(urlFetch)
+            const res = await fetch(URIFetch)
             if (!res.ok) {
                 throw new Error(res.statusText);
             }

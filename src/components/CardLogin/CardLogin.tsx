@@ -1,7 +1,8 @@
 // https://flowbite.com/docs/components/card/#card-with-form-inputs
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
+import UsuarioLogadoContext from "../../contexts/UsuarioLogadoContext";
 
 function CardLogin(props: {setMostrar: React.Dispatch<React.SetStateAction<boolean>>}) {
 
@@ -32,27 +33,11 @@ function CardLogin(props: {setMostrar: React.Dispatch<React.SetStateAction<boole
 
     const [email, setEmail] = useState("")
     const [senha, setSenha] = useState("")
+    const usuarioContext = useContext(UsuarioLogadoContext)
 
     async function logar (event:React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
-        // fetch para api de login localhost:8080/usuarios/login
-        const url = 'http://localhost:8080/usuarios/login'
-        await fetch(url, {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-                //'Authorization': 'Bearer <TOKEN_JWT>'
-            },
-            body: JSON.stringify({email: email, senha: senha})
-        }).then(response => {
-            // TODO: GUARDAR O TOKEN JWT RECEBIDO DA API
-            console.log(response)
-        }).catch((erro) => {
-            console.error("Erro pegando dados dos produtos: ", erro)
-        }).finally(() => {
-            console.log("finally")
-        })
+        usuarioContext.login(email, senha)
     }
 
     return (

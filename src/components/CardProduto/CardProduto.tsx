@@ -15,9 +15,9 @@ function CardProduto (props: {produto: IProduto}) {
                 </a>
             </div>
             <div className="p-5">
-                <a href="#">
+                <button onClick={()=>redirecionarParaDetalhes(props.produto)} className="cursor-pointer">
                     <span className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{props.produto.nome}</span>
-                </a>
+                </button>
                 <span className="font-medium text-lg">
                     R${props.produto.preco}
                 </span>
