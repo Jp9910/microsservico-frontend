@@ -53,6 +53,27 @@ services:
       - front
       - back
 
+  api-carrinho:
+    image: jp9910/microsservico-carrinho:main
+    command: >
+      "npm install &&
+      npm run dev" 
+    env_file: ".env.api-carrinho"
+    ports:
+      - 3000:3000
+    networks:
+      - front
+      - back
+    depends_on:
+      - mongo-carrinho
+      - rabbitmq
+
+  mongo-carrinho:
+    image: mongo
+    env_file: ".mongo-container.env"
+    networks:
+      - back
+
   postgres-loja:
     image: postgres:17
     restart: always
@@ -91,6 +112,15 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - back
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    env_file: ".rabbitmq-container.env"
+    ports:
+      - 5672:5672
+      - 15672:15672
     networks:
       - back
 

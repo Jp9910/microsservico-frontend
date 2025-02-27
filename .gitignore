@@ -4,8 +4,11 @@
 .env.production
 .env.api-loja
 .env.api-autenticacao
+.env.api-carrinho
 .senhapostgresauth.txt
 .senhapostgresloja.txt
+.rabbitmq-container.env
+.mongo-container.env
 
 # Logs
 logs
