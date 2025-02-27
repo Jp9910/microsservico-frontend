@@ -1,7 +1,7 @@
 import { useParams } from "react-router"
 import NavBar from "../components/Navbar/Navbar"
 import Botao from "../components/Botao"
-import IProduto from "../types/Produto"
+import {IProdutoLoja as IProduto} from "../types/Produto"
 import { useEffect, useState } from "react"
 
 function DetalhesProduto () {

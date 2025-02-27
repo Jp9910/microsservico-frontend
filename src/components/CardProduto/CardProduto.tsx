@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import IProduto from "../../types/Produto";
+import {IProdutoLoja as IProduto} from "../../types/Produto";
 import Botao from "../Botao";
 
 function CardProduto (props: {produto: IProduto}) {

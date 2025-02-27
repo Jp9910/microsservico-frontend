@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import BotaoPesquisar from '../components/BotaoPesquisar/BotaoPesquisar'
 import CardProduto from '../components/CardProduto/CardProduto'
 import InputTexto from '../components/InputTexto/InputTexto'
-import IProduto from "../types/Produto";
+import {IProdutoLoja as IProduto} from "../types/Produto";
 
 
 function Sobre() {
