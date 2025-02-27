@@ -1,11 +1,9 @@
 import { Link } from 'react-router'
 import Botao from '../components/Botao'
-import NavBar from '../components/Navbar/Navbar'
 
 function Sobre() {
     return (
         <div className="pagina">
-            <NavBar />            
 
             <div className="flex h-dvh justify-center items-center">
                 <div className=''>
@@ -22,8 +20,6 @@ function Sobre() {
                     </Link>
                 </div>
             </div>
-
-            {/* Adicionar um footer (pegar do outro projeto react) */}
         </div>
     )
 }

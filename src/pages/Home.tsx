@@ -1,5 +1,3 @@
-import NavBar from '../components/Navbar/Navbar'
-
 function Home() {
     // const [count, setCount] = useState(0);
     // pegar produtos da api
@@ -14,11 +12,6 @@ function Home() {
 
     return (
         <div className="pagina">
-
-            <div id="div-navbar">
-                <NavBar />
-            </div>
-
             <div className="grid grid-flow-col grid-rows-3 gap-4">  
                 <div className="bg-blue-500 row-span-3 row-start-12">01</div>  
                 <div className="flex justify-center items-center gap-2 bg-blue-500 row-start-3 row-span-2 row-end-12">
@@ -27,9 +20,6 @@ function Home() {
                 </div>  
                 <div className="bg-blue-500 row-start-1 row-end-4">03</div>
             </div>
-
-            {/* Adicionar um footer (pegar do outro projeto react) */}
-
         </div>
     )
 }

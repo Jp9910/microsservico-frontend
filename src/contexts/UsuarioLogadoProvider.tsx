@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import UsuarioLogadoContext from "./UsuarioLogadoContext";
 import { jwtDecode } from "jwt-decode";
 import { TokenService } from "../services/TokenService";
-import IUsuario from "../types/Usuario";
 import IUsuarioDecodificado from "../types/UsuarioDecodificado";
 
 // Context lets components pass information deep down without explicitly passing props.
@@ -21,7 +20,7 @@ export const UsuarioLogadoProvider = function(prop : {children: React.ReactNode}
         console.log("Decodificando token...")
         const usuarioDecodificado = jwtDecode(TokenService.token) as IUsuarioDecodificado
         console.log("Usuario decodificado:", usuarioDecodificado)
-        setUsuario({email: usuarioDecodificado.sub, nome: usuarioDecodificado.nome} as IUsuario);
+        setUsuario({email: usuarioDecodificado.sub, nome: usuarioDecodificado.nome});
         console.log("Usuario logado:", usuario)
     }
 

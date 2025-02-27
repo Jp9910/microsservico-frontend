@@ -6,48 +6,50 @@ import li from '../../assets/linkedin.png'
 
 function Rodape () {
     return (
-        <div>
-        <div className=""></div>
-        <footer className="flex rounded-sm bg-blue-500 justify-between px-5 mt-3 items-center">
-            <section>
+        <footer className="flex fixed bottom-0 w-full bg-blue-500 justify-between px-5 mt-3 items-center">
+            <section className="flex">
                 <ul>
-                    <li className="mr-8 inline-block">
-                        <a href="https://www.facebook.com" target="_blank" rel="noreferrer">
-                            <img src={fb} alt="facebook logo"/>
-                        </a>
-                    </li>
-                    <li className="mr-8 inline-block">
-                        <a href="https://www.twitter.com" target="_blank" rel="noreferrer">
-                            <img src={tw} alt="twitter logo"/>
-                        </a>
-                    </li>
-                    <li >
-                        <a href="https://www.instagram.com" target="_blank" rel="noreferrer">
-                            <img src={ig} alt="instagram logo"/>
-                        </a>
-                    </li>
+                    <p className="flex text-sm items-center justify-center justify-self-center align-middle">Visite nossas redes!</p>
+                    <div className='flex justify-between'>
+                        <li className="inline-block">
+                            <a href="https://www.facebook.com" target="_blank" rel="noreferrer">
+                                <img src={fb} width="24" height="24" alt="facebook logo"/>
+                            </a>
+                        </li>
+                        <li className="inline-block">
+                            <a href="https://www.twitter.com" target="_blank" rel="noreferrer">
+                                <img src={tw} width="24" height="24" alt="twitter logo"/>
+                            </a>
+                        </li>
+                        <li className="inline-block">
+                            <a href="https://www.instagram.com" target="_blank" rel="noreferrer">
+                                <img src={ig} width="24" height="24" alt="instagram logo"/>
+                            </a>
+                        </li>
+                    </div>
                 </ul>
             </section>
             <section>
-                <img width="50" height="50" src="/logo.png" alt="logo"/>
+                <img width="64" height="64" src="/logo.png" alt="logo"/>
             </section>
             <section>
-                <p>Desenvolvido por JP</p>
+                <p className="text-sm">Desenvolvido por JP</p>
                 <ul>
-                    <li className="mr-8 inline-block">
-                        <a href="https://www.github.com/jp9910" target="_blank" rel="noreferrer">
-                            <img src={gh} alt="GitHub logo"/>
-                        </a>
-                    </li>
-                    <li className="mr-0 inline-block">
-                        <a href="https://www.linkedin.com/in/joao-paulo-secundo/" target="_blank" rel="noreferrer">
-                            <img src={li} alt="Linkedin Logo"/>
-                        </a>
-                    </li>
+                    <div className="flex justify-center space-x-5">
+                        <li className="">
+                            <a href="https://www.github.com/jp9910" target="_blank" rel="noreferrer">
+                                <img src={gh} alt="GitHub logo"/>
+                            </a>
+                        </li>
+                        <li className="">
+                            <a href="https://www.linkedin.com/in/joao-paulo-secundo/" target="_blank" rel="noreferrer">
+                                <img src={li} alt="Linkedin Logo"/>
+                            </a>
+                        </li>
+                    </div>
                 </ul>
             </section>
         </footer>
-        </div>
     )
 }
 

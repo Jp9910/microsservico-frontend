@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import BotaoPesquisar from '../components/BotaoPesquisar/BotaoPesquisar'
 import CardProduto from '../components/CardProduto/CardProduto'
 import InputTexto from '../components/InputTexto/InputTexto'
-import NavBar from '../components/Navbar/Navbar'
 import IProduto from "../types/Produto";
 
 
@@ -96,7 +95,6 @@ function Sobre() {
 
     return (
         <section className="pagina">
-            <NavBar />
 
             <div id="div-busca" className='flex h-12 pb-2 justify-center items-center'>
                 <InputTexto label="" valorInicial="inicio" placeholder="Buscar produtos" required={false} state={stringBusca} setState={setStringBusca} />

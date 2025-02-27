@@ -28,15 +28,15 @@ function NavBar() {
     }, [usuarioLogadoContext])
 
     return (
-        <div id="div-navbar">
+        <section id="section-navbar">
             {mostrarCardLogin && <CardLogin setMostrar={setMostrarCardLogin} />}
             <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-                <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                    <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+                <section className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+                    <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                         <img src="/logosemnome.png" className="h-8" alt="Logo" />
                         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">MicroLoja</span>
-                    </a>
-                    <div className="flex md:order-2 gap-2 md:space-x-0 rtl:space-x-reverse">
+                    </Link>
+                    <section className="flex md:order-2 gap-2 md:space-x-0 rtl:space-x-reverse">
                         {
                             usuarioLogadoContext.usuario ? 
                                 <section>
@@ -53,8 +53,8 @@ function NavBar() {
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
                             </svg>
                         </button>
-                    </div>
-                    <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                    </section>
+                    <section className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                         <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                             <li>
                                 <Link to="/" id="navbar-link-home" 
@@ -88,11 +88,11 @@ function NavBar() {
                                 </Link>
                             </li>
                         </ul>
-                    </div>
-                </div>
+                    </section>
+                </section>
             </nav>
             <NavbarSpacing/>
-        </div>
+        </section>
     )
 }
 
