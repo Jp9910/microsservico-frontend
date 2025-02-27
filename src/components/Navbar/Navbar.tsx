@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router";
 import Botao from "../Botao";
 import NavbarSpacing from "./NavbarSpacing";
 import CardLogin from "../CardLogin/CardLogin";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import UsuarioLogadoContext from "../../contexts/UsuarioLogadoContext";
 
 function NavBar() {
@@ -17,14 +17,15 @@ function NavBar() {
     const [mostrarCardLogin, setMostrarCardLogin] = useState(false)
     const toggleCardLogin = () => {setMostrarCardLogin(true)}
     const usuarioLogadoContext = useContext(UsuarioLogadoContext);
-
-    useEffect(() => {
-        usuarioLogadoContext.pegarInformacoesDoToken()
-    // Não tem jeito, tem que ignorar o linter aqui. Quando lançarem o hook useEffectEvent da pra usar ele
-    // https://18.react.dev/learn/removing-effect-dependencies#do-you-want-to-read-a-value-without-reacting-to-its-changes
+    const precisaCarregarUsuarioRef = useRef(true)
     
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    useEffect(() => {
+        console.log("Carregando usuário a partir do token")
+        if (precisaCarregarUsuarioRef.current) {
+            usuarioLogadoContext.pegarInformacoesDoToken()
+            precisaCarregarUsuarioRef.current = false
+        }
+    }, [usuarioLogadoContext])
 
     return (
         <div id="div-navbar">
