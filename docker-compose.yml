@@ -1,0 +1,111 @@
+# Contains all the services that the front-administracao service depends on
+
+name: ms-front
+services:
+
+  # O serviço vai rodar como se tivesse na máquina local, por causa do argumento `--host 0.0.0.0` no `ng serve`
+  front:
+    image: node:20-alpine
+    container_name: front
+    volumes:
+      - ./:/app/
+    working_dir: /app
+    command: >
+      sh -c "npm install &&
+             npm run dev -- --host"
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api-loja
+      - api-autenticacao
+    networks:
+      - front
+
+  api-loja: # Pegar a imagem do Docker Hub, que deve ser automaticamente atualizada a cada push no repo da loja
+    image: jp9910/microsservico-loja:main # <docker_hub_user>/<nome_da_imagem_upada>:<branch>
+    ports:
+      - "8079:8079"
+      - "8080:8080"
+    env_file: ".env.api-loja"
+    command: sh ./entrypoint-loja.sh
+    volumes:
+      - ./:/src
+    depends_on:
+      postgres-loja:
+        condition: service_healthy
+    networks:
+      - front
+      - back
+
+  api-autenticacao:
+    image: jp9910/microsservico-autenticacao:main
+    env_file:
+      - .env.api-autenticacao
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-autenticacao:5432/autenticacao"
+      SPRING_ACTIVE_PROFILE: dev
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres-autenticacao:
+        condition: service_healthy
+    networks:
+      - front
+      - back
+
+  postgres-loja:
+    image: postgres:17
+    restart: always
+    volumes:
+      - postgresloja-data:/var/lib/postgresql/data
+    secrets:
+      - senha-postgres-loja
+    user: postgres
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/senha-postgres-loja
+      POSTGRES_DB: "loja"
+      POSTGRES_USER: "postgres"
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - back
+
+  postgres-autenticacao:
+    image: postgres:17
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresauth-data:/var/lib/postgresql/data
+    secrets:
+      - senha-postgres-auth
+    user: postgres
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/senha-postgres-auth
+      POSTGRES_DB: "autenticacao"
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - back
+
+volumes:
+  postgresauth-data:
+  postgresloja-data:
+
+secrets:
+  senha-postgres-auth:
+    file: ./.senhapostgresauth.txt
+  senha-postgres-loja:
+    file: ./.senhapostgresloja.txt
+
+networks:
+  front:
+    driver: bridge
+  back:
+    driver: bridge

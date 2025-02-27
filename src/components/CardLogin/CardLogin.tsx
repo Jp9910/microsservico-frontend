@@ -38,6 +38,7 @@ function CardLogin(props: {setMostrar: React.Dispatch<React.SetStateAction<boole
     async function logar (event:React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
         usuarioContext.login(email, senha)
+        props.setMostrar(false)
     }
 
     return (

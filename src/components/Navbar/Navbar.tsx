@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router";
 import Botao from "../Botao";
 import NavbarSpacing from "./NavbarSpacing";
 import CardLogin from "../CardLogin/CardLogin";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UsuarioLogadoContext from "../../contexts/UsuarioLogadoContext";
 
 function NavBar() {
@@ -17,8 +17,14 @@ function NavBar() {
     const [mostrarCardLogin, setMostrarCardLogin] = useState(false)
     const toggleCardLogin = () => {setMostrarCardLogin(true)}
     const usuarioLogadoContext = useContext(UsuarioLogadoContext);
-    // usuarioLogadoContext.setEmail("teste@email")
-    // console.log(usuarioLogadoContext);
+
+    useEffect(() => {
+        usuarioLogadoContext.pegarInformacoesDoToken()
+    // Não tem jeito, tem que ignorar o linter aqui. Quando lançarem o hook useEffectEvent da pra usar ele
+    // https://18.react.dev/learn/removing-effect-dependencies#do-you-want-to-read-a-value-without-reacting-to-its-changes
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <div id="div-navbar">
@@ -31,9 +37,13 @@ function NavBar() {
                     </a>
                     <div className="flex md:order-2 gap-2 md:space-x-0 rtl:space-x-reverse">
                         {
-                            !usuarioLogadoContext.usuario.email ? 
+                            usuarioLogadoContext.usuario ? 
+                                <section>
+                                    <span className="text-md mr-2">Olá, {usuarioLogadoContext.usuario.nome}!</span>
+                                    <Botao id="botao-navbar-logout" legenda="Sair" aoClicar={usuarioLogadoContext.logout} /> 
+                                </section>
+                                : 
                                 <Botao id="botao-navbar-login" legenda="Login" aoClicar={toggleCardLogin} /> 
-                                : <span>usuarioLogadoContext.nome</span>
                         }
                         <Botao legenda="Carrinho"/>
                         <button data-collapse-toggle="navbar-sticky" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">

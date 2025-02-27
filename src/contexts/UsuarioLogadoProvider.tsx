@@ -1,6 +1,10 @@
 import { useContext, useState } from "react";
 import UsuarioLogadoContext from "./UsuarioLogadoContext";
-import AuthService from "../services/AuthService";
+import { jwtDecode } from "jwt-decode";
+import { TokenService } from "../services/TokenService";
+import IUsuario from "../types/Usuario";
+import IUsuarioDecodificado from "../types/UsuarioDecodificado";
+
 // Context lets components pass information deep down without explicitly passing props.
 
 // The context object itself does not hold any information. It represents which context other 
@@ -11,16 +15,14 @@ export const UsuarioLogadoProvider = function(prop : {children: React.ReactNode}
 
     const [usuario, setUsuario] = useState(useContext(UsuarioLogadoContext).usuario);
 
-    const setNome = (nome: string) => {
-        setUsuario((estadoAnterior) => {
-            return {...estadoAnterior, nome: nome}
-        })
-    }
+    function pegarInformacoesDoToken() {
+        if (!TokenService.possuiToken()) return;
 
-    const setEmail = (email: string) => {
-        setUsuario((estadoAnterior) => {
-            return {...estadoAnterior, email: email}
-        })
+        console.log("Decodificando token...")
+        const usuarioDecodificado = jwtDecode(TokenService.token) as IUsuarioDecodificado
+        console.log("Usuario decodificado:", usuarioDecodificado)
+        setUsuario({email: usuarioDecodificado.sub, nome: usuarioDecodificado.nome} as IUsuario);
+        console.log("Usuario logado:", usuario)
     }
 
     async function login(email: string, senha: string) {
@@ -38,23 +40,26 @@ export const UsuarioLogadoProvider = function(prop : {children: React.ReactNode}
         }).then((response) => {
             return response.json()
         }).then(dados => {
-            // console.log(dados)
-            AuthService.salvarToken(dados.token);
+            TokenService.salvarToken(dados.token);
+            pegarInformacoesDoToken()
         }).catch((erro) => {
             console.error("Erro na requisição de login: ", erro)
+            alert("Não foi possível fazer o login")
         })
     }
 
     function logout() {
         console.log("logout")
+        TokenService.excluirToken();
+        setUsuario(null);
     }
 
     const contexto = {
         usuario,
-        setNome,
-        setEmail,
+        // setEmail,
         login,
-        logout
+        logout,
+        pegarInformacoesDoToken
     }
     
     return (
