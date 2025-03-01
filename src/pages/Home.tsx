@@ -1,15 +1,4 @@
 function Home() {
-    // const [count, setCount] = useState(0);
-    // pegar produtos da api
-    // const [gato, setGato] = useState([]);
-    // useEffect(() => {
-    // fetch('https://api.thecatapi.com/v1/images/search?limit=10')
-    //     .then(response => response.json())
-    //     .then(data => setGato(data))
-    // }, []);
-
-    // Se basear no koboldshop!
-
     return (
         <div className="pagina">
             <div className="grid grid-flow-col grid-rows-3 gap-4">  

@@ -8,6 +8,8 @@ import DetalhesProduto from './pages/DetalhesProduto'
 import Carrinho from './pages/Carrinho'
 import { UsuarioLogadoProvider } from './contexts/UsuarioLogadoProvider'
 import NavBar from './components/Navbar/Navbar'
+import RotaPrivada from './rotaprivada'
+import PaginaPedidos from './pages/Pedidos'
 
 // https://github.com/alura-cursos/aluroni-router/blob/main/src/routes.tsx
 function Roteador() {
@@ -22,6 +24,9 @@ function Roteador() {
                     <Route path="/produto/:id" element={<DetalhesProduto />}/>
                     <Route path="/carrinho" element={<Carrinho />}/>
                     <Route path="*" element={<NotFound />}/>
+                    <Route element={<RotaPrivada />}>
+                        <Route path="/pedidos" element={<PaginaPedidos />} />
+                    </Route>
             </Routes>
             </UsuarioLogadoProvider>
             <Rodape />
