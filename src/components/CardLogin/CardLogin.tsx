@@ -3,7 +3,11 @@ import { useContext, useEffect, useRef, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import UsuarioLogadoContext from "../../contexts/UsuarioLogadoContext";
 
-function CardLogin(props: {setMostrar: React.Dispatch<React.SetStateAction<boolean>>, aviso?: string}) {
+function CardLogin(props: {
+    setMostrar: React.Dispatch<React.SetStateAction<boolean>>,
+    aviso?: string, 
+    setMostrarModalCadastro?: React.Dispatch<React.SetStateAction<boolean>>
+}) {
 
     //https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
     // Hook that alerts clicks outside of the passed ref
@@ -14,7 +18,7 @@ function CardLogin(props: {setMostrar: React.Dispatch<React.SetStateAction<boole
              */
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             function handleClickOutside(event:any) {
-                console.log(event.target)
+                // console.log(event.target)
                 if (ref.current && !ref.current.contains(event.target) && event.target.id !== "botao-navbar-login") {
                     props.setMostrar(false)
                 }
@@ -41,7 +45,7 @@ function CardLogin(props: {setMostrar: React.Dispatch<React.SetStateAction<boole
     }
 
     return (
-        <div className="absolute transform-translate-popup-login top-[50%] w-full">
+        <div id="modal-login" className="absolute transform-translate-popup-login top-[50%] w-full">
             <div ref={wrapperRef} className="m-auto max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
                 <form className="space-y-6" onSubmit={logar}>
                     <div className="flex justify-between items-center">
@@ -109,9 +113,9 @@ function CardLogin(props: {setMostrar: React.Dispatch<React.SetStateAction<boole
                     </button>
                     <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                         Não tem conta?&nbsp;
-                        <a href="#" className="text-blue-700 hover:underline dark:text-blue-500">
+                        <button type="button" onClick={()=>{if(props.setMostrarModalCadastro) {props.setMostrar(false);props.setMostrarModalCadastro(true)}}} className="cursor-pointer text-blue-700 hover:underline dark:text-blue-500">
                             Criar uma conta
-                        </a>
+                        </button>
                     </div>
                 </form>
             </div>

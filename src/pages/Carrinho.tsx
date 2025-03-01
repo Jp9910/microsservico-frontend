@@ -123,12 +123,12 @@ function Carrinho() {
 
             <section id="produtos-carrinho" className="flex flex-col mt-3">
                 {loadingCarrinho && <div className="flex flex-col justify-center items-center">
-                    Carregando produtos
+                    Carregando carrinho...
                     <img src="loading.gif" width="200" height="200" alt="loading-gif" id="img-loading"></img>
                 </div>
                 }
 
-                {erroCarrinho && <div className="flex justify-center items-center">Erro ao carregar os produtos.</div>}
+                {erroCarrinho && <div className="flex justify-center items-center">Erro ao carregar o carrinho.</div>}
 
                 {
                     !carrinho?.produtos &&

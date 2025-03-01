@@ -1,12 +1,12 @@
 // https://flowbite.com/docs/components/navbar/
 
 import { Link, useLocation } from "react-router";
-import Botao from "../Botao";
 import NavbarSpacing from "./NavbarSpacing";
 import CardLogin from "../CardLogin/CardLogin";
 import { useContext, useEffect, useRef, useState } from "react";
 import UsuarioLogadoContext from "../../contexts/UsuarioLogadoContext";
 import BotaoEstilizado from "../Botao/BotaoEstilizado";
+import ModalCadastro from "../ModalCadastro/ModalCadastro";
 
 function NavBar() {
 
@@ -15,8 +15,13 @@ function NavBar() {
     // console.log(currentLocation)
 
     const localUrl = useLocation()
+
     const [mostrarCardLogin, setMostrarCardLogin] = useState(false)
     const toggleCardLogin = () => {setMostrarCardLogin(true)}
+
+    const [mostrarModalCadastro, setMostrarModalCadastro] = useState(false)
+    const toggleModalCadastro = () => {setMostrarModalCadastro(true)}
+
     const usuarioContext = useContext(UsuarioLogadoContext);
     const precisaCarregarUsuarioRef = useRef(true)
     
@@ -30,7 +35,8 @@ function NavBar() {
 
     return (
         <section id="section-navbar">
-            {mostrarCardLogin && <CardLogin setMostrar={setMostrarCardLogin} />}
+            {mostrarCardLogin && <CardLogin setMostrar={setMostrarCardLogin} setMostrarModalCadastro={setMostrarModalCadastro}/>}
+            {mostrarModalCadastro && <ModalCadastro setMostrar={setMostrarModalCadastro} />}
             <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
                 <section className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -42,10 +48,13 @@ function NavBar() {
                             usuarioContext.usuario ? 
                                 <section>
                                     <span className="text-md mr-2">Olá, {usuarioContext.usuario.nome}!</span>
-                                    <Botao id="botao-navbar-logout" legenda="Sair" aoClicar={usuarioContext.logout} /> 
+                                    <BotaoEstilizado id="botao-navbar-logout" aoClicar={usuarioContext.logout}>Sair</BotaoEstilizado> 
                                 </section>
-                                : 
-                                <Botao id="botao-navbar-login" legenda="Login" aoClicar={toggleCardLogin} /> 
+                                :
+                                <section className="flex gap-2 md:space-x-0 rtl:space-x-reverse">
+                                    <BotaoEstilizado id="botao-navbar-login" aoClicar={toggleCardLogin}>Login</BotaoEstilizado>
+                                    <BotaoEstilizado id="botao-navbar-cadastro" aoClicar={toggleModalCadastro}>Criar conta</BotaoEstilizado> 
+                                </section>
                         }
                         <BotaoEstilizado>
                             <Link to="/carrinho">Carrinho</Link>
