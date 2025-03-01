@@ -1,10 +1,9 @@
 // https://flowbite.com/docs/components/card/#card-with-form-inputs
-
 import { useContext, useEffect, useRef, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import UsuarioLogadoContext from "../../contexts/UsuarioLogadoContext";
 
-function CardLogin(props: {setMostrar: React.Dispatch<React.SetStateAction<boolean>>}) {
+function CardLogin(props: {setMostrar: React.Dispatch<React.SetStateAction<boolean>>, aviso?: string}) {
 
     //https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
     // Hook that alerts clicks outside of the passed ref
@@ -46,9 +45,14 @@ function CardLogin(props: {setMostrar: React.Dispatch<React.SetStateAction<boole
             <div ref={wrapperRef} className="m-auto max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
                 <form className="space-y-6" onSubmit={logar}>
                     <div className="flex justify-between items-center">
-                        <h5 className="text-xl font-medium text-gray-900 dark:text-white">
-                            Entrar
-                        </h5>
+                        {
+                        (props.aviso && <h5 className="text-xl font-medium text-gray-900 dark:text-white">
+                            {props.aviso}</h5>) 
+                        || 
+                            <h5 className="text-xl font-medium text-gray-900 dark:text-white">
+                                Entrar
+                            </h5>
+                        }
                         <button className="hover:cursor-pointer" type="button" onClick={() => props.setMostrar(false)}>
                             <CloseIcon/>
                         </button>

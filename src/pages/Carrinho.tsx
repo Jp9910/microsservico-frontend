@@ -4,6 +4,9 @@ import ICarrinho from "../types/Carrinho";
 import { IProdutoCarrinho } from "../types/Produto";
 import ProdutoNoCarrinho from "../components/ProdutoNoCarrinho/ProdutoNoCarrinho";
 import BotaoEstilizado from "../components/Botao/BotaoEstilizado";
+import { v4 as uuidv4 } from 'uuid';
+import { CookieCarrinhoService } from "../services/CookieCarrinhoService";
+import CardLogin from "../components/CardLogin/CardLogin";
 
 function Carrinho() {
     const [carrinho, setCarrinho] = useState(null as ICarrinho | null)
@@ -12,11 +15,22 @@ function Carrinho() {
     const [erroCarrinho, setErroCarrinho] = useState(null);
     const [erroPedido, setErroPedido] = useState(null);
     const usuarioContext = useContext(UsuarioLogadoContext)
-    
+
+    const [mostrarCardLogin, setMostrarCardLogin] = useState(false)
+
     const [mostrarFormPagamento, setMostrarFormPagamento] = useState(false)
     const [numeroCartao, setNumeroCartao] = useState("")
     const [dataExpiracaoCartao, setDataExpiracaoCartao] = useState("")
     const [codigoSegurancaCartao, setCodigoSegurancaCartao] = useState("")
+
+    function podeFazerCheckout() {
+        if (usuarioContext.usuario) {
+            setMostrarFormPagamento(true)
+        }
+        if (!usuarioContext.usuario) {
+            setMostrarCardLogin(true)
+        }
+    }
 
     async function realizarPedido(event:React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -68,7 +82,7 @@ function Carrinho() {
         if (email) {
             busca = `emailCliente=${email}`
         } else {
-            const cookie = localStorage.getItem("carrinho") ?? ""
+            const cookie = CookieCarrinhoService.cookieCarrinho
             busca = `cookieCliente=${cookie}`
         }
         const params = new URLSearchParams(busca)
@@ -99,6 +113,7 @@ function Carrinho() {
 
     return (
         <section id="pagina">
+            {mostrarCardLogin && <CardLogin setMostrar={setMostrarCardLogin} aviso={"Faça login para realizar o pedido"}/>}
             <section className="flex w-full justify-center">
                 <svg width="128px" height="128px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000" transform="rotate(0)matrix(1, 0, 0, 1, 0, 0)"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z" stroke="#000000" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
                 </path> </g>
@@ -126,7 +141,7 @@ function Carrinho() {
                 <section className="flex flex-col items-center space-y-2">
                     {
                         carrinho?.produtos.map((produto: IProdutoCarrinho) => {
-                            return <ProdutoNoCarrinho key={produto.id} produto={produto} />
+                            return <ProdutoNoCarrinho key={uuidv4()} produto={produto} />
                         })
                     }
                 </section>
@@ -134,21 +149,21 @@ function Carrinho() {
                     carrinho?.produtos &&
                     <section className="flex justify-center">
                         <section className="flex w-1/3 justify-end">
-                            <BotaoEstilizado aoClicar={() => setMostrarFormPagamento(true)}>
+                            <BotaoEstilizado aoClicar={() => {podeFazerCheckout()}}>
                                 Checkout
                             </BotaoEstilizado>
                         </section>
                     </section>
                 }
             </section>
-            
+
             {
                 mostrarFormPagamento &&
                 <section id="formulario-pagamento" className="flex mt-3 justify-center">
                     <form className="flex flex-col w-1/3 space-y-6 items-center" onSubmit={realizarPedido}>
                         <h2 className="self-center text-3xl">Realizar pagamento</h2>
 
-                        {loadingPedido && 
+                        {loadingPedido &&
                             <div className="flex flex-col justify-center items-center">
                                 Registrando pedido
                                 <img src="loading.gif" width="200" height="200" alt="loading-gif" id="img-loading"></img>
@@ -161,13 +176,13 @@ function Carrinho() {
                             <label htmlFor="numeroCartao" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Número do cartão
                             </label>
-                            <input 
-                                onChange={(evento) => {setNumeroCartao(evento.target.value)}} 
+                            <input
+                                onChange={(evento) => {setNumeroCartao(evento.target.value)}}
                                 type="text"
                                 inputMode="numeric"
-                                name="numeroCartao" 
-                                id="numeroCartao" 
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" 
+                                name="numeroCartao"
+                                id="numeroCartao"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 placeholder="1234 5678 9123 4567"
                                 required
                             />
@@ -177,12 +192,12 @@ function Carrinho() {
                             <label htmlFor="dataExpiracaoCartao" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Data de expiração
                             </label>
-                            <input 
-                                onChange={(evento) => {setDataExpiracaoCartao(evento.target.value)}} 
+                            <input
+                                onChange={(evento) => {setDataExpiracaoCartao(evento.target.value)}}
                                 type="month"
-                                name="dataExpiracaoCartao" 
-                                id="dataExpiracaoCartao" 
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" 
+                                name="dataExpiracaoCartao"
+                                id="dataExpiracaoCartao"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 placeholder="AAAA-MM"
                                 required
                             />
@@ -192,12 +207,12 @@ function Carrinho() {
                             <label htmlFor="codigoSegurancaCartao" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Código de segurança
                             </label>
-                            <input 
-                                onChange={(evento) => {setCodigoSegurancaCartao(evento.target.value)}} 
+                            <input
+                                onChange={(evento) => {setCodigoSegurancaCartao(evento.target.value)}}
                                 type="number"
-                                name="codigoSegurancaCartao" 
-                                id="codigoSegurancaCartao" 
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" 
+                                name="codigoSegurancaCartao"
+                                id="codigoSegurancaCartao"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 placeholder="123"
                                 required
                             />
