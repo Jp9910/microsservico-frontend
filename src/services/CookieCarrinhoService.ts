@@ -25,7 +25,7 @@ export class CookieCarrinhoService {
     static async sincronizarCarrinho(usuario: IUsuario|null) {
         try {
             const cookie = CookieCarrinhoService.cookieCarrinho
-            const protocolo = "http://";
+            const protocolo = import.meta.env.VITE_PROTOCOLO_REQUEST
             const urlApiCarrinho = import.meta.env.VITE_URL_API_CARRINHO;
             const urlBuscarCarrinhoPorCookie = 
                 protocolo.concat(urlApiCarrinho)

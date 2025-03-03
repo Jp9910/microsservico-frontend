@@ -19,7 +19,7 @@ function Sobre() {
     //https://www.newline.co/@bespoyasov/how-to-use-fetch-with-typescript--a81ac257
     useEffect(() => {
         // Carregar produtos da loja
-        const protocolo = "http://";
+        const protocolo = import.meta.env.VITE_PROTOCOLO_REQUEST
         const urlApiLoja = import.meta.env.VITE_URL_API_LOJA //localhost:8080
         const URI = protocolo.concat(urlApiLoja).concat('/produto?')
         const params = new URLSearchParams("skip=0&take=30")
@@ -49,7 +49,7 @@ function Sobre() {
 
     function adicionarAoCarrinho(produto: IProdutoLoja) {
         console.log("Adicionando ao carrinho:",produto)
-        const protocolo = "http://";
+        const protocolo = import.meta.env.VITE_PROTOCOLO_REQUEST
         const urlApiLoja = import.meta.env.VITE_URL_API_CARRINHO // localhost:3000
         const urlCompleta = protocolo.concat(urlApiLoja).concat('/carrinhos/adicionarProduto')
 

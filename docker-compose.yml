@@ -76,6 +76,8 @@ services:
 
   postgres-loja:
     image: postgres:17
+    ports:
+      - "5432:5432"
     volumes:
       - postgresloja-data:/var/lib/postgresql/data
     secrets:
@@ -96,7 +98,7 @@ services:
   postgres-autenticacao:
     image: postgres:17
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgresauth-data:/var/lib/postgresql/data
     secrets:

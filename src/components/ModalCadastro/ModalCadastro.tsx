@@ -33,7 +33,7 @@ function ModalCadastro(props: {setMostrar: React.Dispatch<React.SetStateAction<b
         event.preventDefault()
         console.log("cadastrar")
         console.log(email,nome,senha)
-        const protocolo = "http://";
+        const protocolo = import.meta.env.VITE_PROTOCOLO_REQUEST;
         const urlApiLoja = import.meta.env.VITE_URL_API_AUTENTICACAO
         const urlCompleta = protocolo.concat(urlApiLoja).concat('/usuarios/cadastrar')
         await fetch(urlCompleta, {

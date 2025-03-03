@@ -1,11 +1,9 @@
 import { Navigate, Outlet } from "react-router";
-import { TokenService } from "./services/TokenService";
+import UsuarioService from "./services/UsuarioService";
 
 const RotaPrivada = () => {
-    // se possuiToken, está logado
-    // ou teria que ser um useEffect que vai rodar depois do usuario mudar, pq o usuario só é setado quando a navbar carrega...
     return (
-        TokenService.possuiToken() ? <Outlet /> : <Navigate to="/" />
+        UsuarioService.estaLogado ? <Outlet /> : <Navigate to="/" />
     )
 }
 

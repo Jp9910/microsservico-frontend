@@ -7,13 +7,16 @@ import BotaoEstilizado from "../components/Botao/BotaoEstilizado";
 import { v4 as uuidv4 } from 'uuid';
 import { CookieCarrinhoService } from "../services/CookieCarrinhoService";
 import CardLogin from "../components/CardLogin/CardLogin";
+import { Link } from "react-router";
+import UsuarioService from "../services/UsuarioService";
 
 function Carrinho() {
     const [carrinho, setCarrinho] = useState(null as ICarrinho | null)
     const [loadingCarrinho, setLoadingCarrinho] = useState(true);
     const [loadingPedido, setLoadingPedido] = useState(false);
-    const [erroCarrinho, setErroCarrinho] = useState(null);
-    const [erroPedido, setErroPedido] = useState(null);
+    const [erroCarrinho, setErroCarrinho] = useState(null as string|null);
+    const [avisoPedido, setAvisoPedido] = useState(null as string|null);
+    const [pedidoFoiFeito, setPedidoFoiFeito] = useState(false);
     const usuarioContext = useContext(UsuarioLogadoContext)
 
     const [mostrarCardLogin, setMostrarCardLogin] = useState(false)
@@ -23,11 +26,11 @@ function Carrinho() {
     const [dataExpiracaoCartao, setDataExpiracaoCartao] = useState("")
     const [codigoSegurancaCartao, setCodigoSegurancaCartao] = useState("")
 
-    function podeFazerCheckout() {
-        if (usuarioContext.usuario) {
+    function fazerCheckoutOuLogin() {
+        if (usuarioContext.usuario || UsuarioService.usuario.email) {
             setMostrarFormPagamento(true)
         }
-        if (!usuarioContext.usuario) {
+        else {
             setMostrarCardLogin(true)
         }
     }
@@ -38,39 +41,45 @@ function Carrinho() {
         console.log("Registrando pedido")
         console.log(numeroCartao,dataExpiracaoCartao,codigoSegurancaCartao)
 
-        const protocolo = "http://";
-        const urlApiLoja = import.meta.env.VITE_URL_API_LOJA // localhost:3000
+        const protocolo = import.meta.env.VITE_PROTOCOLO_REQUEST;
+        const urlApiLoja = import.meta.env.VITE_URL_API_LOJA //local: "localhost:7285/api"
         const urlCompleta = protocolo.concat(urlApiLoja).concat('/pedido')
         const produtosIds: number[] = []
         carrinho?.produtos.map((produto) => {produtosIds.push(produto.id)})
         const pedido = {
-            "emailCliente": usuarioContext.usuario?.email,
+            "EmailCliente": usuarioContext.usuario?.email || UsuarioService.usuario.email,
             "IdsProdutos": produtosIds,
-            "IdCarrinho": carrinho?._id
+            "IdCarrinho": carrinho?._id,
+            "NumeroCartao": numeroCartao,
+            "DataExpiracaoCartao": dataExpiracaoCartao,
+            "CodigoSegurancaCartao": codigoSegurancaCartao,
         }
-        console.log(pedido)
+        console.log("pedido:",pedido)
 
         // Enviar o pedido para a loja
         fetch(urlCompleta, {method: "POST", body: JSON.stringify(pedido), headers: {"Content-Type": "application/json"}})
             .then((res) => {
+                console.log("RESPOTSATA::",res)
                 if (!res.ok) {
                     throw new Error(res.statusText);
                 }
                 return res.json()
             }).then((dados)=> {
                 console.log("Resposta da api de pedidos:", dados)
-                setErroPedido(null)
+                setAvisoPedido("✅ Pedido realizado com sucesso. Obrigado por comprar conosco 😄")
+                setPedidoFoiFeito(true)
             })
             .catch(error => {
                 console.error("Erro ao registrar o pedido: ", error)
-                setErroPedido(error)
+                setLoadingPedido(false)
+                setAvisoPedido(error)
             }).finally(() => {
                 setLoadingPedido(false)
-            });
+            })
     }
 
     useEffect(() => {
-        const protocolo = "http://";
+        const protocolo = import.meta.env.VITE_PROTOCOLO_REQUEST
         const urlApiLoja = import.meta.env.VITE_URL_API_CARRINHO // localhost:3000
         const urlCompleta = protocolo.concat(urlApiLoja).concat('/carrinhos/buscar?')
         // buscar o carrinho pelo email se tiver usuario logado
@@ -149,7 +158,7 @@ function Carrinho() {
                     carrinho?.produtos &&
                     <section className="flex justify-center">
                         <section className="flex w-1/3 justify-end">
-                            <BotaoEstilizado aoClicar={() => {podeFazerCheckout()}}>
+                            <BotaoEstilizado aoClicar={() => {fazerCheckoutOuLogin()}}>
                                 Checkout
                             </BotaoEstilizado>
                         </section>
@@ -170,7 +179,13 @@ function Carrinho() {
                             </div>
                         }
 
-                        {erroPedido && <div className="flex justify-center items-center">Erro ao registrar pedido.</div>}
+                        {avisoPedido && <div className="flex justify-center items-center">{avisoPedido}</div>}
+
+                        {pedidoFoiFeito && 
+                            <div className="flex justify-center items-center">
+                                Verifique o status na&nbsp;<Link to="/pedidos" className="text-blue-400 cursor-pointer">Página de Pedidos.</Link>
+                            </div>
+                        }
 
                         <fieldset className="w-1/2">
                             <label htmlFor="numeroCartao" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

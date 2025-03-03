@@ -8,8 +8,7 @@ const UsuarioLogadoContext = createContext(
     {
         usuario: null as IUsuario|null,
         login: (email: string, senha: string) => {console.log(email,senha)},
-        logout: () => {return},
-        pegarInformacoesDoToken: () => {return}
+        logout: () => {return}
     }
 )
 
