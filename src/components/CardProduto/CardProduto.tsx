@@ -16,14 +16,14 @@ function CardProduto (props: {produto: IProdutoLoja, adicionarAoCarrinho: (produ
                 </a>
             </div>
             <div className="p-5">
-                <Link to={`/produtos/${props.produto.id}`}>
+                <Link to={`/produto/${props.produto.id}`}>
                     <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{props.produto.nome}</h2>
                 </Link>
                 <span className="font-medium text-lg">
                     R${props.produto.preco}
                 </span>
                 <BotaoEstilizado>
-                    <Link to={`/produtos/${props.produto.id}`}>
+                    <Link to={`/produto/${props.produto.id}`}>
                         Detalhes
                     </Link>
                 </BotaoEstilizado>

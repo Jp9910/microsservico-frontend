@@ -1,9 +1,9 @@
-import { IProdutoCarrinho } from "./Produto";
+import { IProdutoPedidos } from "./Produto";
 
 export default interface IPedido {
     id: number,
     emailCliente: string,
     createdAt: string,
-    produtos: Array<IProdutoCarrinho>,
+    produtos: Array<IProdutoPedidos>,
     status: string // "Processando Pagamento"|"Em preparo"|"Entregue"
 }
