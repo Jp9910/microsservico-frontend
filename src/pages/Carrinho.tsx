@@ -12,6 +12,7 @@ import UsuarioService from "../services/UsuarioService";
 
 function Carrinho() {
     const [carrinho, setCarrinho] = useState(null as ICarrinho | null)
+    const [produtosCarrinho, setProdutosCarrinho] = useState([] as IProdutoCarrinho[])
     const [loadingCarrinho, setLoadingCarrinho] = useState(true);
     const [loadingPedido, setLoadingPedido] = useState(false);
     const [erroCarrinho, setErroCarrinho] = useState(null as string|null);
@@ -35,7 +36,7 @@ function Carrinho() {
         }
     }
 
-    async function realizarPedido(event:React.FormEvent<HTMLFormElement>) {
+    function realizarPedido(event:React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
         setLoadingPedido(true)
         console.log("Registrando pedido")
@@ -45,7 +46,7 @@ function Carrinho() {
         const urlApiLoja = import.meta.env.VITE_URL_API_LOJA //local: "localhost:7285"
         const urlCompleta = protocolo.concat(urlApiLoja).concat('/api/pedido')
         const produtosIds: number[] = []
-        carrinho?.produtos.map((produto) => {produtosIds.push(produto.id)})
+        produtosCarrinho.map((produto) => {produtosIds.push(produto.id)})
         const pedido = {
             "EmailCliente": usuarioContext.usuario?.email || UsuarioService.usuario.email,
             "IdsProdutos": produtosIds,
@@ -75,6 +76,38 @@ function Carrinho() {
                 setAvisoPedido(error)
             }).finally(() => {
                 setLoadingPedido(false)
+            })
+    }
+
+    function removerDoCarrinho(idProduto: number) {
+        console.log("Removendo do carrinho produto com Id ", idProduto)
+        const protocolo = import.meta.env.VITE_PROTOCOLO_REQUEST
+        const urlApiLoja = import.meta.env.VITE_URL_API_CARRINHO
+        const urlCompleta = protocolo.concat(urlApiLoja).concat('/carrinhos/removerProduto')
+
+        const request_body = {
+            emailCliente: usuarioContext.usuario?.email,
+            cookieCliente: CookieCarrinhoService.cookieCarrinho,
+            IdProduto: idProduto
+        }
+        console.log(request_body)
+
+        // Enviar pra api de produto
+        fetch(urlCompleta, { method: "PATCH", body: JSON.stringify(request_body), headers: { "Content-Type": "application/json" } })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(res.statusText);
+                }
+            }).then(() => {
+                console.log("Produto removido do carrinho")
+                alert("Produto foi removido do carrinho")
+                // const produtos = carrinho?.produtos.filter((prod) => prod.id !== idProduto) ?? []
+                const produtos = produtosCarrinho.filter((prod) => prod.id !== idProduto) ?? []
+                setProdutosCarrinho(produtos)
+            })
+            .catch(error => {
+                console.error("Erro ao remover produto do carrinho: ", error)
+                alert("Erro ao remover produto do carrinho")
             })
     }
 
@@ -109,8 +142,11 @@ function Carrinho() {
 
         carregarCarrinho<ICarrinho>()
             .then((dados) => {
-                console.log(dados)
-                setCarrinho(dados)
+                if (dados) {
+                    console.log(dados)
+                    setCarrinho(dados)
+                    setProdutosCarrinho(dados.produtos)
+                }
                 setErroCarrinho(null)
             }).catch(error => {
                 console.error("Erro carregando carrinho: ", error)
@@ -140,7 +176,7 @@ function Carrinho() {
                 {erroCarrinho && <div className="flex justify-center items-center">Erro ao carregar o carrinho.</div>}
 
                 {
-                    !carrinho?.produtos &&
+                    produtosCarrinho.length == 0 &&
                     <section className="flex flex-col items-center">
                         <p className="text-2xl">Nenhum produto no seu carrinho ☹️</p>
                         <p className="text-lg mt-3">Adicione produtos para comprar!</p>
@@ -149,13 +185,13 @@ function Carrinho() {
 
                 <section className="flex flex-col items-center space-y-2">
                     {
-                        carrinho?.produtos.map((produto: IProdutoCarrinho) => {
-                            return <ProdutoNoCarrinho key={uuidv4()} produto={produto} />
+                        produtosCarrinho.map((produto: IProdutoCarrinho) => {
+                            return <ProdutoNoCarrinho key={produto.id} produto={produto} removerProdutoDoCarrinho={removerDoCarrinho} />
                         })
                     }
                 </section>
                 {
-                    carrinho?.produtos &&
+                    produtosCarrinho.length > 0 &&
                     <section className="flex justify-center">
                         <section className="flex w-1/3 justify-end">
                             <BotaoEstilizado aoClicar={() => {fazerCheckoutOuLogin()}}>

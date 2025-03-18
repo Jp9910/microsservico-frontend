@@ -72,9 +72,11 @@ function Sobre() {
                 return res.json()
             }).then((dados)=> {
                 console.log("Produto adicionado ao carrinho:", dados)
+                alert("Produto foi adicionado ao carrinho! 😀")
             })
             .catch(error => {
                 console.error("Erro ao adicionar ao carrinho: ", error)
+                alert("Erro ao adicionar produto ao carrinho :(")
             })
     }
 
