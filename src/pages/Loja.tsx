@@ -21,7 +21,7 @@ function Sobre() {
         // Carregar produtos da loja
         const protocolo = import.meta.env.VITE_PROTOCOLO_REQUEST
         const urlApiLoja = import.meta.env.VITE_URL_API_LOJA //localhost:8080
-        const URI = protocolo.concat(urlApiLoja).concat('/produto?')
+        const URI = protocolo.concat(urlApiLoja).concat('/api/produto?')
         const params = new URLSearchParams("skip=0&take=30")
         const URIFetch = URI+params.toString()
         console.log(URIFetch)

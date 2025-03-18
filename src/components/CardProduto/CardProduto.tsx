@@ -1,12 +1,12 @@
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { IProdutoLoja } from "../../types/Produto";
 import BotaoEstilizado from "../Botao/BotaoEstilizado";
 
 function CardProduto (props: {produto: IProdutoLoja, adicionarAoCarrinho: (produto: IProdutoLoja) => void}) {
-    const navigate = useNavigate()
-    function redirecionarParaDetalhes(produto: IProdutoLoja) {
-        navigate(`/produto/${produto.id}`, { state: { produto }, replace: false });
-    }
+    // const navigate = useNavigate()
+    // function redirecionarParaDetalhes(produto: IProdutoLoja) {
+    //     navigate(`/produto/${produto.id}`, { state: { produto }, replace: false });
+    // }
 
     return (
         <div className="grid grid-rows-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">

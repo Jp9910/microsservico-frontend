@@ -42,8 +42,8 @@ function Carrinho() {
         console.log(numeroCartao,dataExpiracaoCartao,codigoSegurancaCartao)
 
         const protocolo = import.meta.env.VITE_PROTOCOLO_REQUEST;
-        const urlApiLoja = import.meta.env.VITE_URL_API_LOJA //local: "localhost:7285/api"
-        const urlCompleta = protocolo.concat(urlApiLoja).concat('/pedido')
+        const urlApiLoja = import.meta.env.VITE_URL_API_LOJA //local: "localhost:7285"
+        const urlCompleta = protocolo.concat(urlApiLoja).concat('/api/pedido')
         const produtosIds: number[] = []
         carrinho?.produtos.map((produto) => {produtosIds.push(produto.id)})
         const pedido = {

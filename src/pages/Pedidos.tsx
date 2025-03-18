@@ -22,7 +22,7 @@ function PaginaPedidos() {
         const email = usuarioContext.usuario?.email || UsuarioService.usuario.email
         const urlBuscarPedido =
             protocolo.concat(urlApiLoja)
-                .concat('/pedido/buscar/porEmail?email=')
+                .concat('/api/pedido/buscar/porEmail?email=')
                 .concat(email);
 
         console.log("usuario na pagina pedidos: ", usuarioContext)
@@ -86,7 +86,7 @@ function PaginaPedidos() {
                                     {
                                         pedido.produtos.map((produto: IProdutoPedidos) => {
                                             // return <ProdutoNoCarrinho key={uuidv4()} produto={produto} />
-                                            return <section className="flex mb-2">
+                                            return <section className="flex mb-2" key={uuidv4()}>
                                                 <Link to={`/produto/${produto.id}`} target="_blank">
                                                 <figure>
                                                 {
