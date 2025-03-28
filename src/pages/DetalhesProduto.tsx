@@ -19,7 +19,10 @@ function DetalhesProduto () {
     const [erro, setErro] = useState(null);
 
     useEffect(() => {
-            const url = `http://localhost:8080/api/produto/${id}`
+            const protocolo = import.meta.env.VITE_PROTOCOLO_REQUEST;
+            const urlApiLoja = import.meta.env.VITE_URL_API_LOJA
+            // const url = `http://localhost:8080/api/produto/${id}`
+            const url = protocolo.concat(urlApiLoja).concat(`/api/produto/${id}`)
             
             //No typescript, <TipoGenerico> (ou <QualquerCoisa>) significa que esse tipo deve ser especificado quando a função for chamada. 
             async function carregarProdutos<TipoGenerico>(): Promise<TipoGenerico> {

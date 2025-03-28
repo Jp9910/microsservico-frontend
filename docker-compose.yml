@@ -21,6 +21,18 @@ services:
     networks:
       - front
 
+  # gateway: # não precisa do gateway, a config de dev no front vai fazer as requisições direto pro container especifico
+  #   image: jp9910/nginx-gateway-microsservicos:main
+  #   ports:
+  #     - 80:80
+  #   depends_on:
+  #     - api-loja
+  #     - api-autenticacao
+  #     - api-carrinho
+  #   networks:
+  #     - front
+  #     - back
+
   api-loja: # Pegar a imagem do Docker Hub, que deve ser automaticamente atualizada a cada push no repo da loja
     image: jp9910/microsservico-loja:main # <docker_hub_user>/<nome_da_imagem_upada>:<branch>
     ports:

@@ -186,7 +186,7 @@ function Carrinho() {
                 <section className="flex flex-col items-center space-y-2">
                     {
                         produtosCarrinho.map((produto: IProdutoCarrinho) => {
-                            return <ProdutoNoCarrinho key={produto.id} produto={produto} removerProdutoDoCarrinho={removerDoCarrinho} />
+                            return <ProdutoNoCarrinho key={uuidv4()} produto={produto} removerProdutoDoCarrinho={removerDoCarrinho} />
                         })
                     }
                 </section>
